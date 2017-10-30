@@ -39,6 +39,7 @@
 
 typedef int (*cmd_f)(char *);
 
+int do_status(char *params);
 int do_serial_command(char *cmd_str);
 void rx_serial_command(char c);
 

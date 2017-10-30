@@ -5,17 +5,6 @@
 
 #define COORD_VALID(c) ((c) < 8)
 
-// -1 == cmd failed, 0 == ok, 1 == error, etc.
-int do_status(char *params) {
-    char *p;
-    int status;
-    if ((p = strtok(params, ",")) != NULL) {
-        status = atoi(p);
-        return status;
-    }
-    return -1;
-}
-
 int do_new_game(char *params) {
     return -1;
 }
