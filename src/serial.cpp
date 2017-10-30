@@ -5,6 +5,7 @@
 #else
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "serial_stm32.h"
 #endif
 
@@ -31,30 +32,20 @@ int do_serial_command(char *cmd_str) {
     params = strtok(NULL, "\n");
 
     if (!cmd) {
-#ifdef SPARK
-        Log.error("No command found");
-#endif
+        LOG_ERR("No command found");
         return ret;
     }
-#ifdef SPARK
-    Log.info("Got cmd %.4s", cmd);
-#endif
+    LOG_INFO("Got cmd %.4s", cmd);
     c = strtol(cmd, &tmp, 16); // cmd number is in hex
     if (strcmp(cmd, tmp) == 0) {
-#ifdef SPARK
-        Log.error("Command bits are invalid");
-#endif
+        LOG_ERR("Command bits are invalid");
         return ret;
     }
-#ifdef SPARK
-    Log.info("cmd number: %d", c);
-#endif
+    LOG_INFO("cmd number: %d", c);
     if (c < sizeof(cmds) && cmds[c]) {
         ret = cmds[c](params); // params may be NULL
     } else {
-#ifdef SPARK
-        Log.warn("Serial cmd %d not implemented", c);
-#endif
+        LOG_WARN("Serial cmd %d not implemented", c);
     }
 
     return ret;
@@ -69,14 +60,11 @@ void rx_serial_command(char c) {
     if (i < SERIAL_BUFF_SIZE) {
         if (c == '\r' || c == '\n') {
             rx_buffer[i] = '\0';
+			LOG_INFO("%s", rx_buffer);
             if (do_serial_command(rx_buffer) == 0) {
-#ifdef SPARK
-                Log.trace("Serial cmd complete");
-#endif
+                LOG_TRACE("Serial cmd complete");
             } else {
-#ifdef SPARK
-                Log.error("Serial cmd failed");
-#endif
+                LOG_ERR("Serial cmd failed");
             }
             CLEAR_BUFF(rx_buffer, SERIAL_BUFF_SIZE, i);
         } else {

@@ -36,10 +36,9 @@ unsigned char valid_move(char *move) {
 	    dst_x = move[2]-'a';
 	    dst_y = move[3]-'1';
 	    return (COORD_VALID(src_x) && COORD_VALID(src_y) && COORD_VALID(dst_x) && COORD_VALID(dst_y));
-	    return 0;
     }
 
-    return 1;
+    return 0;
 }
 
 // only for testing, captures a move command from usb serial
