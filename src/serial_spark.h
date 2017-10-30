@@ -1,7 +1,6 @@
 #ifndef __SERIAL_SPARK_H_
 #define __SERIAL_SPARK_H_
 
-int do_status(char *params);
 int do_new_game(char *params);
 int do_end_turn(char *params);
 int do_move_piece(char *params);
