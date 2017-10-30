@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "serial.h"
-
-#define COORD_VALID(c) ((c) < 8)
+#include "stepper_control.h"
 
 int do_new_game(char *params) {
     return -1;
@@ -13,26 +12,15 @@ int do_end_turn(char *params) {
     return -1;
 }
 
-/*
- *  validates that move is of the form:
- *      [a-h][1-8][a-h][1-8]
- */
-unsigned char valid_move(char *move) {
-    if (move && strlen(move) == 4) {
-        unsigned char src_x, src_y, dst_x, dst_y;
-        src_x = move[0]-'a';
-	    src_y = move[1]-'1';
-	    dst_x = move[2]-'a';
-	    dst_y = move[3]-'1';
-	    return (COORD_VALID(src_x) && COORD_VALID(src_y) && COORD_VALID(dst_x) && COORD_VALID(dst_y));
-    }
-
-    return 0;
-}
-
 // only for testing, captures a move command from usb serial
 // and forwards it to motor driver
 int do_move_piece(char *params) {
+	LOG_TRACE("got move: %s", params);
+	if (params && uci_move(params) >= 0) {
+		LOG_TRACE("move succeded");
+		return 0;
+	}
+	LOG_TRACE("move failed");
     return -1;
 }
 
@@ -41,7 +29,9 @@ int do_promote(char *params) {
 }
 
 int do_calibrate(char *params) {
-    return -1;
+	LOG_TRACE("calibrating...");
+	calibrate();
+    return 0;
 }
 
 int do_end_game(char *params) {
