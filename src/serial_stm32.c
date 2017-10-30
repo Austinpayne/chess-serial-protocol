@@ -1,3 +1,4 @@
+#ifndef SPARK
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -45,3 +46,4 @@ int do_scan_wifi(char *params) {
 int do_set_wifi(char *params) {
     return -1;
 }
+#endif

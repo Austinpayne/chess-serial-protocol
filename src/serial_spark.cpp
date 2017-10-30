@@ -1,3 +1,4 @@
+#ifdef SPARK
 #include "Particle.h"
 #include "serial.h"
 
@@ -70,3 +71,5 @@ int do_set_wifi(char *params) {
     Log.trace("Serial set wifi cmd not implemented");
     return -1;
 }
+#endif
+
