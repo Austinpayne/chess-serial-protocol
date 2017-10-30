@@ -1,12 +1,10 @@
 #include "serial.h"
 #ifdef SPARK
 #include "Particle.h"
-#include "serial_spark.h"
 #else
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "serial_stm32.h"
 #endif
 
 // cmd format: `0x[CMD] [params?]\n`
