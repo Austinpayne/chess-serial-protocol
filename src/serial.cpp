@@ -91,8 +91,8 @@ int rx_serial_command(char c) {
             ret = 1;
         }
     } else {
-        LOG_ERROR("Serial buffer overflow");
-        CLEAR_BUFFER(rx_buffer, SERIAL_BUFF_SIZE, i);
+        LOG_ERR("Serial buffer overflow");
+        CLEAR_BUFF(rx_buffer, SERIAL_BUFF_SIZE, i);
         ret = -1;
     }
 
