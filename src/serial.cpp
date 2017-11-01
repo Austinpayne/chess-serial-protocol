@@ -61,25 +61,40 @@ int do_serial_command(char *cmd_str) {
     return ret;
 }
 
-void rx_serial_command(char c) {
+// recieves serial command into rx_buffer given
+// one character, c, at a time. Returns one of the following:
+// 0  = command rx'd/completed successfully
+// 1  = command not yet fully recieved, keep passing in characters
+// -1 = command not rx'd or failed
+int rx_serial_command(char c) {
     #define SERIAL_BUFF_SIZE 64
 
     static char rx_buffer[SERIAL_BUFF_SIZE];
     static int i = 0;
 
+    int ret;
     if (i < SERIAL_BUFF_SIZE) {
         if (c == '\r' || c == '\n') {
             rx_buffer[i] = '\0';
 			LOG_INFO("%s", rx_buffer);
             if (do_serial_command(rx_buffer) == 0) {
                 LOG_TRACE("Serial cmd complete");
+                ret = 0;
             } else {
                 LOG_ERR("Serial cmd failed");
+                ret = -1;
             }
             CLEAR_BUFF(rx_buffer, SERIAL_BUFF_SIZE, i);
         } else {
             rx_buffer[i] = c;
             i++;
+            ret = 1;
         }
+    } else {
+        LOG_ERROR("Serial buffer overflow");
+        CLEAR_BUFFER(rx_buffer, SERIAL_BUFF_SIZE, i);
+        ret = -1;
     }
+
+    return ret;
 }

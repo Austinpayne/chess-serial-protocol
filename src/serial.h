@@ -41,7 +41,7 @@ typedef int (*cmd_f)(char *);
 
 int do_status(char *params);
 int do_serial_command(char *cmd_str);
-void rx_serial_command(char c);
+int rx_serial_command(char c);
 
 // these functions are platform (spark, stm32) specific
 int do_new_game(char *params);
