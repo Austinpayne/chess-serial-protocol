@@ -2,7 +2,7 @@
 #define __SERIAL_H_
 
 // stm32 turn off logging
-#define DEBUG 1
+#define DEBUG 0
 
 #define CMD_FMT  "%01x"
 #define MOVE_FMT "%.4s"
@@ -24,7 +24,7 @@
 #define SEND_CMD(c)        Serial1.printlnf(CMD_FMT, (c))
 #define SEND_CMD_P(c,PF,p) Serial1.printlnf(CMD_FMT " " PF, (c), (p))
 #define LOG_INFO(...)  Log.info(__VA_ARGS__)
-#define LOG_WARN(...) Log.warn(__VA_ARGS__)
+#define LOG_WARN(...)  Log.warn(__VA_ARGS__)
 #define LOG_TRACE(...) Log.trace(__VA_ARGS__)
 #define LOG_ERR(...)   Log.error(__VA_ARGS__)
 #else // assume stm32
