@@ -23,10 +23,9 @@ cmd_f cmds[] = {
 
 // -1 == cmd failed, 0 == ok, 1 == error, etc.
 int do_status(char *params) {
-    char *p;
     int status;
-    if ((p = strtok(params, ",")) != NULL) {
-        status = atoi(p);
+    if (params) { // only one parameter for status
+        status = atoi(params);
 		LOG_TRACE("Got serial status: %d", status);
         return status;
     }
