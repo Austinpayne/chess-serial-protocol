@@ -52,7 +52,7 @@ int do_serial_command(char *cmd_str, int *expected) {
         return ret;
     }
     LOG_INFO("cmd number: %d", c);
-    if (c < sizeof(cmds) && cmds[c]) {
+    if (c < sizeof(cmds)/sizeof(cmd_f) && cmds[c]) {
         ret = cmds[c](params); // params may be NULL
         if (expected) {
             if (*expected == c)
