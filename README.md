@@ -2,6 +2,7 @@
 `CMD [PARAMS]\n`
 * CMD is cmd number (in hex)
 * PARAMS depend on the command and are comma separated, i.e `p1,p2,p3,...,pN`
+* Return status' should be `>= 0`, even for errors. Status' `< 0` are reserved for parsing errors.
 
 ### Need
 * `0x0` status (params: `0=ok`)
