@@ -29,6 +29,7 @@ int do_status(char *params) {
 		LOG_TRACE("Got serial status: %d", status);
         return status;
     }
+    LOG_ERR("No status sent");
     return -1;
 }
 
@@ -67,6 +68,12 @@ int do_serial_command(char *cmd_str, int *expected) {
     return ret;
 }
 
+int rx_serial_command(char c, int *expected) {
+    #define BUFF_SIZE 64
+    static char rx_buffer[BUFF_SIZE];
+    return rx_serial_command_r(c, rx_buffer, BUFF_SIZE, expected);
+}
+
 // recieves serial command into rx_buffer given
 // one character, c, at a time. Returns one of the following:
 // 0  = command rx'd/completed successfully
@@ -74,14 +81,11 @@ int do_serial_command(char *cmd_str, int *expected) {
 // -1 = command not rx'd or failed
 // Can also use *cmd to pass in the expected cmd and upon return, *cmd
 // will be the status of the parsed cmd if it matches the expected
-int rx_serial_command(char c, int *expected) {
-    #define SERIAL_BUFF_SIZE 64
-
-    static char rx_buffer[SERIAL_BUFF_SIZE];
+int rx_serial_command_r(char c, char *rx_buffer, int size, int *expected) {
     static int i = 0;
 
     int ret;
-    if (i < SERIAL_BUFF_SIZE) {
+    if (i < size) {
         if (c == '\r' || c == '\n') {
             rx_buffer[i] = '\0';
 			LOG_INFO("%s", rx_buffer);
@@ -92,7 +96,7 @@ int rx_serial_command(char c, int *expected) {
                 LOG_ERR("Serial cmd failed");
                 ret = -1;
             }
-            CLEAR_BUFF(rx_buffer, SERIAL_BUFF_SIZE, i);
+            CLEAR_BUFF(rx_buffer, size, i);
         } else {
             rx_buffer[i] = c;
             i++;
@@ -100,7 +104,7 @@ int rx_serial_command(char c, int *expected) {
         }
     } else {
         LOG_ERR("Serial buffer overflow");
-        CLEAR_BUFF(rx_buffer, SERIAL_BUFF_SIZE, i);
+        CLEAR_BUFF(rx_buffer, size, i);
         ret = -1;
     }
 
