@@ -55,10 +55,13 @@ int do_serial_command(char *cmd_str, int *expected) {
     if (c < sizeof(cmds)/sizeof(cmd_f) && cmds[c]) {
         ret = cmds[c](params); // params may be NULL
         if (expected) {
-            if (*expected == c)
+            if (*expected == c) {
+                LOG_TRACE("Got expected cmd");
                 *expected = ret;
-            else
+            } else {
+                LOG_TRACE("cmd is unexpected");
                 *expected = -1;
+            }
         }
         ret = 0;
     } else {
@@ -88,6 +91,7 @@ int rx_serial_command_r(char c, char *rx_buffer, int size, int *expected) {
     if (i < size) {
         if (c == '\r' || c == '\n') {
             rx_buffer[i] = '\0';
+            i = 0; // just in case another call to rx_serial_command_r comes in
 			LOG_INFO("%s", rx_buffer);
             if (do_serial_command(rx_buffer, expected) == 0) {
                 LOG_TRACE("Serial cmd complete");
