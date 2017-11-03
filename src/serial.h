@@ -21,8 +21,8 @@
 #define CLEAR_BUFF(b,s,i)  memset(b, 0, s); i = 0
 // use SEND_CMD_P in other macros, PF is format specifier
 #ifdef SPARK
-#define SEND_CMD(c)        Serial1.printlnf(CMD_FMT, (c))
-#define SEND_CMD_P(c,PF,p) Serial1.printlnf(CMD_FMT " " PF, (c), (p))
+#define SEND_CMD(c)        Serial1.printf(CMD_FMT "\n", (c))
+#define SEND_CMD_P(c,PF,p) Serial1.printf(CMD_FMT " " PF "\n", (c), (p))
 #define LOG_INFO(...)  Log.info(__VA_ARGS__)
 #define LOG_WARN(...)  Log.warn(__VA_ARGS__)
 #define LOG_TRACE(...) Log.trace(__VA_ARGS__)
