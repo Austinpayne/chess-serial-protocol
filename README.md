@@ -8,8 +8,12 @@
 * `0x0` status (params: `0=ok`)
 * `0x1` start new game (params: `player_type=<human|ai>`)
 * `0x2` end turn
-* `0x3` move piece (params: `move` (in LAN format, ex. `e2e4`))
-* `0x4` promote pawn (need to figure out how chess-js handles this server side)
+* `0x3` move piece (params: `move,<c|p|k|q|e>?,<promo|extra_move|en_passant_capture>?` (in LAN format, ex. `0x3 e2e4`))
+  * `c` capture, need to move piece at `move` first (ex. `0x3 e2e4,c`)
+  * `p` promotion, need to move piece type `promo` to `move` (ex. `0x3 h7h8,p,q` promote to queen)
+  * `k`/`q` castling, need to make `extra_move` as well (ex. `0x3 e1g1,k,h1f1` move rook at `h1` as well)
+  * `e` en passant capture, need to remove `en_passant_capture` as well (ex. `0x3 b4a3,e,a4` remove `a4` as well)
+* `0x4` ~~promote pawn (need to figure out how chess-js handles this server side)~~ (superseded by move)
 * `0x5` calibrate (photon initiated on new game, probably don't need to have user access)
 * `0x6` end game (photon --> touchscreen, could also be touchscreen --> photon to indicate player wants to leave game)
 
