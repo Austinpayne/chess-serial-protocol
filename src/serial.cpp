@@ -39,18 +39,16 @@ int parse_params(char *params, char **param_arr, int max_params) {
     int i = 0;
 
     if (!params)
-        return;
+        return 0;
 
     p = strtok_r(params, SEPARATOR, &tmp);
     while (p && i < max_params) {
-        p_arr[i] = p;
+        param_arr[i] = p;
         p = strtok_r(NULL, SEPARATOR, &tmp);
         i++;
     }
 
-    for (i=0; i<max_params; i++) {
-        LOG_TRACE("param%d=%s\n", i, p_arr[i]);
-    }
+    return i; // number of params parsed
 }
 
 int do_serial_command(char *cmd_str, int *expected) {
