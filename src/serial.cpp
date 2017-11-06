@@ -33,6 +33,26 @@ int do_status(char *params) {
     return -1;
 }
 
+int parse_params(char *params, char **param_arr, int max_params) {
+    #define SEPARATOR ","
+    char *p, *tmp;
+    int i = 0;
+
+    if (!params)
+        return;
+
+    p = strtok_r(params, SEPARATOR, &tmp);
+    while (p && i < max_params) {
+        p_arr[i] = p;
+        p = strtok_r(NULL, SEPARATOR, &tmp);
+        i++;
+    }
+
+    for (i=0; i<max_params; i++) {
+        LOG_TRACE("param%d=%s\n", i, p_arr[i]);
+    }
+}
+
 int do_serial_command(char *cmd_str, int *expected) {
     char *cmd, *params, *tmp;
     int c;
