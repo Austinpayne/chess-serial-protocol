@@ -13,7 +13,7 @@
   * `p` promotion, need to move piece type `promo` to `move` (ex. `0x3 h7h8,p,q` promote to queen)
   * `k`/`q` castling, need to make `extra_move` as well (ex. `0x3 e1g1,k,h1f1` move rook at `h1` as well)
   * `e` en passant capture, need to remove `en_passant_capture` as well (ex. `0x3 b4a3,e,a4` remove `a4` as well)
-* `0x4` ~~promote pawn (need to figure out how chess-js handles this server side)~~ (superseded by move)
+* `0x4` wait for user move
 * `0x5` calibrate (photon initiated on new game, probably don't need to have user access)
 * `0x6` end game (photon --> touchscreen, could also be touchscreen --> photon to indicate player wants to leave game)
 
