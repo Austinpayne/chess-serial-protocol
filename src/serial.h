@@ -15,9 +15,9 @@
 #define SCAN_WIFI      0x7
 #define SET_WIFI       0x8
 #define CMD_SEND_LOG   0x9
-#define LVL_INFO   1
-#define LVL_WARN   2
-#define LVL_TRACE  3
+#define LVL_TRACE  1
+#define LVL_INFO   2
+#define LVL_WARN   3
 #define LVL_ERR    4
 
 #define OKAY 0
@@ -34,10 +34,13 @@
 #else // assume stm32
 #define SEND_CMD(c)        printf(CMD_FMT "\n", (c))
 #define SEND_CMD_P(c,PF,p) printf(CMD_FMT " " PF "\n", (c), (p))
-#define LOG_INFO(...)  if (DEBUG) {printf("[info] " __VA_ARGS__); printf("\n");}  else {printf(CMD_SEND_LOG " " LVL_INFO " " __VA_ARGS__);}
-#define LOG_WARN(...)  if (DEBUG) {printf("[warn] " __VA_ARGS__); printf("\n");}  else {printf(CMD_SEND_LOG " " LVL_WARN " " __VA_ARGS__);}
-#define LOG_TRACE(...) if (DEBUG) {printf("[trace] " __VA_ARGS__); printf("\n");} else {printf(CMD_SEND_LOG " " LVL_TRACE " " __VA_ARGS__);}
-#define LOG_ERR(...)   if (DEBUG) {printf("[error]" __VA_ARGS__); printf("\n");}  else {printf(CMD_SEND_LOG " " LVL_ERR " " __VA_ARGS__);}
+#define LOG_INFO(...)  if (DEBUG) {printf("[info] " __VA_ARGS__); printf("\n");}  else {printf(LOG_FMT(LVL_INFO) __VA_ARGS__); printf("\n");}
+#define LOG_WARN(...)  if (DEBUG) {printf("[warn] " __VA_ARGS__); printf("\n");}  else {printf(LOG_FMT(LVL_WARN) __VA_ARGS__); printf("\n");}
+#define LOG_TRACE(...) if (DEBUG) {printf("[trace] " __VA_ARGS__); printf("\n");} else {printf(LOG_FMT(LVL_TRACE) __VA_ARGS__); printf("\n");}
+#define LOG_ERR(...)   if (DEBUG) {printf("[error]" __VA_ARGS__); printf("\n");}  else {printf(LOG_FMT(LVL_ERR) __VA_ARGS__); printf("\n");}
+#define STR1(s) #s
+#define STR(s) STR1(s)
+#define LOG_FMT(lvl) STR(CMD_SEND_LOG) " " STR(lvl) " "
 #endif
 
 typedef int (*cmd_f)(char *);
