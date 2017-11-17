@@ -14,6 +14,7 @@
 #define CMD_END_GAME   0x6
 #define SCAN_WIFI      0x7
 #define SET_WIFI       0x8
+#define CMD_SEND_LOG   0x9
 
 #define OKAY 0
 
@@ -52,5 +53,6 @@ int do_calibrate(char *params);
 int do_end_game(char *params);
 int do_scan_wifi(char *params);
 int do_set_wifi(char *params);
+int do_send_log(char *params);
 
 #endif /* __SERIAL_H_ */

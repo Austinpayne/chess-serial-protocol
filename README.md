@@ -22,6 +22,7 @@
 * `0x8` set wifi
 
 ### Nice-to-have
-* `0x9` get best move
-* `0xA` query existing games
-* `0xB` join existing game
+* `0x9` send log (forward debug messages to photon)
+* `0xA` get best move
+* `0xB` query existing games
+* `0xC` join existing game

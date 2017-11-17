@@ -18,7 +18,8 @@ cmd_f cmds[] = {
     &do_calibrate,  // TO   motor control
     &do_end_game,   // FROM motor control
     &do_scan_wifi,  // FROM motor control
-    &do_set_wifi    // FROM motor control
+    &do_set_wifi,   // FROM motor control
+    &do_send_log    // FROM motor control
 };
 
 // -1 == cmd failed, 0 == ok, 1 == error, etc.
