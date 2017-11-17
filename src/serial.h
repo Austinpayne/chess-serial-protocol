@@ -5,7 +5,6 @@
 #define DEBUG 0
 
 #define CMD_FMT  "%01x"
-#define MOVE_FMT "%.4s"
 #define CMD_STATUS     0x0
 #define CMD_NEW_GAME   0x1
 #define CMD_END_TURN   0x2
@@ -22,7 +21,7 @@
 // use SEND_CMD_P in other macros, PF is format specifier
 #ifdef SPARK
 #define SEND_CMD(c)        Serial1.printf(CMD_FMT "\n", (c))
-#define SEND_CMD_P(c,PF,p) Serial1.printf(CMD_FMT " " PF "\n", (c), (p))
+#define SEND_CMD_P(c,fmt,...) Serial1.printf(CMD_FMT " " fmt "\n", (c), __VA_ARGS__)
 #define LOG_INFO(...)  Log.info(__VA_ARGS__)
 #define LOG_WARN(...)  Log.warn(__VA_ARGS__)
 #define LOG_TRACE(...) Log.trace(__VA_ARGS__)
@@ -35,7 +34,6 @@
 #define LOG_TRACE(...) if (DEBUG) {printf("[trace] " __VA_ARGS__); printf("\n");}
 #define LOG_ERR(...)   if (DEBUG) {printf("[error]" __VA_ARGS__); printf("\n");}
 #endif
-#define SEND_MOVE(m)       SEND_CMD_P(CMD_MOVE_PIECE, MOVE_FMT, (m))
 
 typedef int (*cmd_f)(char *);
 
