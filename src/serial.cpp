@@ -39,14 +39,17 @@ int parse_params(char *params, char **param_arr, int max_params) {
     char *p, *tmp;
     int i = 0;
 
-    if (!params)
+    if (!params || !max_params || !param_arr)
         return 0;
 
     p = strtok_r(params, SEPARATOR, &tmp);
-    while (p && i < max_params) {
+    while (p) {
         param_arr[i] = p;
-        p = strtok_r(NULL, SEPARATOR, &tmp);
         i++;
+        if (i < max_params);
+            p = strtok_r(NULL, SEPARATOR, &tmp);
+        else
+            break;
     }
 
     return i; // number of params parsed
