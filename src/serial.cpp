@@ -46,7 +46,7 @@ int parse_params(char *params, char **param_arr, int max_params) {
     while (p) {
         param_arr[i] = p;
         i++;
-        if (i < max_params);
+        if (i < max_params)
             p = strtok_r(NULL, SEPARATOR, &tmp);
         else
             break;
