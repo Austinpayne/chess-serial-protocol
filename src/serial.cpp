@@ -27,10 +27,8 @@ int do_status(char *params) {
     int status;
     if (params) { // only one parameter for status
         status = atoi(params);
-		LOG_TRACE("Got serial status: %d", status);
         return status;
     }
-    LOG_ERR("No status sent");
     return -1;
 }
 
@@ -67,21 +65,17 @@ int do_serial_command(char *cmd_str, int *expected) {
         LOG_ERR("No command found");
         return ret;
     }
-    LOG_INFO("Got cmd %.4s", cmd);
     c = strtol(cmd, &tmp, 16); // cmd number is in hex
     if (strcmp(cmd, tmp) == 0) {
         LOG_ERR("Command bits are invalid");
         return ret;
     }
-    LOG_INFO("cmd number: %d", c);
     if (c < sizeof(cmds)/sizeof(cmd_f) && cmds[c]) {
         ret = cmds[c](params); // params may be NULL
         if (expected) {
             if (*expected == c) {
-                LOG_TRACE("Got expected cmd");
                 *expected = ret;
             } else {
-                LOG_TRACE("cmd is unexpected");
                 *expected = -1;
             }
         }
@@ -114,9 +108,7 @@ int rx_serial_command_r(char c, char *rx_buffer, int size, int *expected) {
         if (c == '\r' || c == '\n') {
             rx_buffer[i] = '\0';
             i = 0; // just in case another call to rx_serial_command_r comes in
-			LOG_INFO("%s", rx_buffer);
             if (do_serial_command(rx_buffer, expected) == 0) {
-                LOG_TRACE("Serial cmd complete");
                 ret = 0;
             } else {
                 LOG_ERR("Serial cmd failed");
