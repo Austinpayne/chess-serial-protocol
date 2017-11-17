@@ -30,10 +30,10 @@
 #else // assume stm32
 #define SEND_CMD(c)        printf(CMD_FMT "\n", (c))
 #define SEND_CMD_P(c,PF,p) printf(CMD_FMT " " PF "\n", (c), (p))
-#define LOG_INFO(...)  if (DEBUG) {printf("[info] " __VA_ARGS__); printf("\n");}
-#define LOG_WARN(...)  if (DEBUG) {printf("[warn] " __VA_ARGS__); printf("\n");}
-#define LOG_TRACE(...) if (DEBUG) {printf("[trace] " __VA_ARGS__); printf("\n");}
-#define LOG_ERR(...)   if (DEBUG) {printf("[error]" __VA_ARGS__); printf("\n");}
+#define LOG_INFO(...)  if (DEBUG) {printf("[info] " __VA_ARGS__); printf("\n");} else {printf(__VA_ARGS__);}
+#define LOG_WARN(...)  if (DEBUG) {printf("[warn] " __VA_ARGS__); printf("\n");} else {printf(__VA_ARGS__);}
+#define LOG_TRACE(...) if (DEBUG) {printf("[trace] " __VA_ARGS__); printf("\n");} else {printf(__VA_ARGS__);}
+#define LOG_ERR(...)   if (DEBUG) {printf("[error]" __VA_ARGS__); printf("\n");} else {printf(__VA_ARGS__);}
 #endif
 
 typedef int (*cmd_f)(char *);
