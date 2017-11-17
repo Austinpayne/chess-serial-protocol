@@ -40,7 +40,7 @@
 #define LOG_ERR(...)   if (DEBUG) {printf("[error]" __VA_ARGS__); printf("\n");}  else {printf(LOG_FMT(LVL_ERR) __VA_ARGS__); printf("\n");}
 #define STR1(s) #s
 #define STR(s) STR1(s)
-#define LOG_FMT(lvl) STR(CMD_SEND_LOG) " " STR(lvl) " "
+#define LOG_FMT(lvl) STR(CMD_SEND_LOG) " " STR(lvl) ","
 #endif
 
 typedef int (*cmd_f)(char *);
