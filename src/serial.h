@@ -49,9 +49,8 @@
 typedef int (*cmd_f)(char *);
 
 int do_status(char *params);
-int do_serial_command(char *cmd_str, int *expected);
-int rx_serial_command(char c, int *expected);
-int rx_serial_command_r(char c, char *rx_buffer, int size, int *expected);
+int rx_serial_command(char c, int *cmd_ret);
+int rx_serial_command_r(char c, char *rx_buffer, int size, int *cmd_ret);
 int parse_params(char *params, char **param_arr, int max_params);
 
 // these functions are platform (spark, stm32) specific

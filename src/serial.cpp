@@ -32,6 +32,11 @@ int do_status(char *params) {
     return -1;
 }
 
+// used to parse command params in comma separated form, i.e.
+// params = "p0,p1,p2,...,pN"
+// parses up to N or max_params parameters
+// returns the number of params parsed (and hence the number of params
+// stored in param_arr)
 int parse_params(char *params, char **param_arr, int max_params) {
     #define SEPARATOR ","
     char *p, *tmp;
@@ -53,7 +58,7 @@ int parse_params(char *params, char **param_arr, int max_params) {
     return i; // number of params parsed
 }
 
-int do_serial_command(char *cmd_str, int *expected) {
+static int do_serial_command(char *cmd_str, int *cmd_ret) {
     char *cmd, *params, *tmp;
     int c;
     int ret = -1;
@@ -70,16 +75,13 @@ int do_serial_command(char *cmd_str, int *expected) {
         LOG_ERR("Command bits are invalid");
         return ret;
     }
-    if (c < sizeof(cmds)/sizeof(cmd_f) && cmds[c]) {
-        ret = cmds[c](params); // params may be NULL
-        if (expected) {
-            if (*expected == c) {
-                *expected = ret;
-            } else {
-                *expected = -1;
-            }
-        }
-        ret = 0;
+    if (c >= 0 && c < sizeof(cmds)/sizeof(cmd_f) && cmds[c]) {
+        // params may be NULL
+        if (cmd_ret)
+            *cmd_ret = cmds[c](params);
+        else
+            cmds[c](params);
+        ret = c;
     } else {
         LOG_WARN("Serial cmd %d not implemented", c);
     }
@@ -87,20 +89,21 @@ int do_serial_command(char *cmd_str, int *expected) {
     return ret;
 }
 
-int rx_serial_command(char c, int *expected) {
+int rx_serial_command(char c, int *cmd_ret) {
     #define BUFF_SIZE 64
     static char rx_buffer[BUFF_SIZE];
-    return rx_serial_command_r(c, rx_buffer, BUFF_SIZE, expected);
+    return rx_serial_command_r(c, rx_buffer, BUFF_SIZE, cmd_ret);
 }
 
 // recieves serial command into rx_buffer given
 // one character, c, at a time. Returns one of the following:
-// 0  = command rx'd/completed successfully
-// 1  = command not yet fully recieved, keep passing in characters
-// -1 = command not rx'd or failed
-// Can also use *cmd to pass in the expected cmd and upon return, *cmd
-// will be the status of the parsed cmd if it matches the expected
-int rx_serial_command_r(char c, char *rx_buffer, int size, int *expected) {
+// >= 0  = command rx'd/completed successfully (ret is command code)
+// -1 = command not yet fully recieved, keep passing in characters
+// -2 = command not rx'd or failed
+// Can also use *cmd_ret to get the return status of the command run
+int rx_serial_command_r(char c, char *rx_buffer, int size, int *cmd_ret) {
+    #define CONTINUE -1
+    #define FAIL -2
     static int i = 0;
 
     int ret;
@@ -108,22 +111,21 @@ int rx_serial_command_r(char c, char *rx_buffer, int size, int *expected) {
         if (c == '\r' || c == '\n') {
             rx_buffer[i] = '\0';
             i = 0; // just in case another call to rx_serial_command_r comes in
-            if (do_serial_command(rx_buffer, expected) == 0) {
-                ret = 0;
-            } else {
+            ret = do_serial_command(rx_buffer, cmd_ret);
+            if (ret < 0) {
                 LOG_ERR("Serial cmd failed");
-                ret = -1;
+                ret = FAIL;
             }
             CLEAR_BUFF(rx_buffer, size, i);
         } else {
             rx_buffer[i] = c;
             i++;
-            ret = 1;
+            ret = CONTINUE;
         }
     } else {
         LOG_ERR("Serial buffer overflow");
         CLEAR_BUFF(rx_buffer, size, i);
-        ret = -1;
+        ret = FAIL;
     }
 
     return ret;
