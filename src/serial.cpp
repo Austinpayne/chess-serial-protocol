@@ -102,8 +102,6 @@ int rx_serial_command(char c, int *cmd_ret) {
 // -2 = command not rx'd or failed
 // Can also use *cmd_ret to get the return status of the command run
 int rx_serial_command_r(char c, char *rx_buffer, int size, int *cmd_ret) {
-    #define CONTINUE -1
-    #define FAIL -2
     static int i = 0;
 
     int ret;

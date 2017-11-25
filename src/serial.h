@@ -4,6 +4,9 @@
 // stm32 turn off logging
 #define DEBUG 0
 
+#define CONTINUE -1
+#define FAIL -2
+
 #define CMD_FMT  "%01x"
 #define CMD_STATUS     0x0
 #define CMD_NEW_GAME   0x1
