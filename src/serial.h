@@ -23,7 +23,8 @@
 #define LVL_WARN   3
 #define LVL_ERR    4
 
-#define OKAY 0
+#define STATUS_OKAY 0
+#define STATUS_FAIL 1
 
 #define CLEAR_BUFF(b,s,i)  memset(b, 0, s); i = 0
 // use SEND_CMD_P in other macros, PF is format specifier
