@@ -10,16 +10,17 @@
 // cmd format: `0x[CMD] [params?]\n`
 // or `0x[CMD]\n`
 cmd_f cmds[] = {
-    &do_status,     // FROM motor control
-    &do_new_game,   // FROM motor control
-    &do_end_turn,   // TO   motor control
-    &do_move_piece, // TO   motor control
-    &do_promote,    // FROM motor control
-    &do_calibrate,  // TO   motor control
-    &do_end_game,   // FROM motor control
-    &do_scan_wifi,  // FROM motor control
-    &do_set_wifi,   // FROM motor control
-    &do_send_log    // FROM motor control
+    &do_status,
+    &do_new_game,   // FROM android
+    &do_end_turn,   // FROM android
+    &do_move_piece,
+    &do_promote,    // FROM android
+    &do_calibrate,
+    &do_end_game,   // FROM android
+    &do_scan_wifi,
+    &do_set_wifi,
+    &do_send_log,   // FROM stm32
+    &do_capture_castle    // FROM android
 };
 
 // -1 == cmd failed, 0 == ok, 1 == error, etc.
