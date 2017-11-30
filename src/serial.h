@@ -19,6 +19,7 @@
 #define SET_WIFI       0x8
 #define CMD_SEND_LOG   0x9
 #define CMD_CAPTURE_CASTLE   0xA
+#define CMD_RESET   0xB
 #define LVL_TRACE  1
 #define LVL_INFO   2
 #define LVL_WARN   3
@@ -69,5 +70,6 @@ int do_scan_wifi(char *params);
 int do_set_wifi(char *params);
 int do_send_log(char *params);
 int do_capture_castle(char *params);
+int do_reset(char *params);
 
 #endif /* __SERIAL_H_ */

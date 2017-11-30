@@ -13,15 +13,16 @@
   * `p` promotion, need to move piece type `promo` to `move` (ex. `0x3 h7h8,p,q` promote to queen)
   * `k`/`q` castling, need to make `extra_move` as well (ex. `0x3 e1g1,k,h1f1` move rook at `h1` as well)
   * `e` en passant capture, need to remove `en_passant_capture` as well (ex. `0x3 b4a3,e,a4` remove `a4` as well)
-* `0x4` wait for user move
+* `0x4` user promote
 * `0x5` calibrate (photon initiated on new game, probably don't need to have user access)
 * `0x6` end game (photon --> touchscreen, could also be touchscreen --> photon to indicate player wants to leave game)
 * `0x9` send log (forward debug messages to photon)
 * `0xA` end capture/castle
+* `0xB` system reset
 
 ### Incomplete (nice-to-have and wow-factor)
 * `0x7` scan for wifi networks (see https://github.com/Austinpayne/photon-chess-client/issues/1)
 * `0x8` set wifi
-* `0xB` get best move
-* `0xC` query existing games
-* `0xD` join existing game
+* `0xC` get best move
+* `0xD` query existing games
+* `0xE` join existing game

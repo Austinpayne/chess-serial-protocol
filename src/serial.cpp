@@ -11,16 +11,17 @@
 // or `0x[CMD]\n`
 cmd_f cmds[] = {
     &do_status,
-    &do_new_game,   // FROM android
-    &do_end_turn,   // FROM android
+    &do_new_game,
+    &do_end_turn,
     &do_move_piece,
-    &do_promote,    // FROM android
+    &do_promote,
     &do_calibrate,
-    &do_end_game,   // FROM android
+    &do_end_game,
     &do_scan_wifi,
     &do_set_wifi,
-    &do_send_log,   // FROM stm32
-    &do_capture_castle    // FROM android
+    &do_send_log,
+    &do_capture_castle,
+    &do_reset
 };
 
 // -1 == cmd failed, 0 == ok, 1 == error, etc.
