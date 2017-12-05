@@ -21,7 +21,8 @@ cmd_f cmds[] = {
     &do_set_wifi,
     &do_send_log,
     &do_capture_castle,
-    &do_reset
+    &do_reset,
+    &do_user_turn
 };
 
 // -1 == cmd failed, 0 == ok, 1 == error, etc.

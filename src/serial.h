@@ -20,6 +20,7 @@
 #define CMD_SEND_LOG   0x9
 #define CMD_CAPTURE_CASTLE   0xA
 #define CMD_RESET   0xB
+#define CMD_USER_TURN  0xC
 #define LVL_TRACE  1
 #define LVL_INFO   2
 #define LVL_WARN   3
@@ -31,6 +32,8 @@
 #define CLEAR_BUFF(b,s,i)  do {memset((b), 0, (s)); (i) = 0;} while(0)
 // use SEND_CMD_P in other macros, PF is format specifier
 #ifdef SPARK
+#define SEND_ANDROID_CMD(c)           Serial.printf(CMD_FMT "\n", (c))
+#define SEND_ANDROID_CMD_P(c,fmt,...) Serial.printf(CMD_FMT " " fmt "\n", (c), __VA_ARGS__)
 #define SEND_CMD(c)           Serial1.printf(CMD_FMT "\n", (c))
 #define SEND_CMD_P(c,fmt,...) Serial1.printf(CMD_FMT " " fmt "\n", (c), __VA_ARGS__)
 #define SEND_CMD_START(c,fmt,...) Serial1.printf(CMD_FMT " " fmt, (c), __VA_ARGS__)
@@ -71,5 +74,6 @@ int do_set_wifi(char *params);
 int do_send_log(char *params);
 int do_capture_castle(char *params);
 int do_reset(char *params);
+int do_user_turn(char *params);
 
 #endif /* __SERIAL_H_ */

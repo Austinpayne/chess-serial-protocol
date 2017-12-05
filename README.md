@@ -19,10 +19,11 @@
 * `0x9` send log (forward debug messages to photon)
 * `0xA` end capture/castle
 * `0xB` system reset
+* `0xC` user turn ready (indicate to android that user can make moves)
 
 ### Incomplete (nice-to-have and wow-factor)
 * `0x7` scan for wifi networks (see https://github.com/Austinpayne/photon-chess-client/issues/1)
 * `0x8` set wifi
-* `0xC` get best move
-* `0xD` query existing games
-* `0xE` join existing game
+* `0xD` get best move
+* `0xE` query existing games
+* `0xF` join existing game
