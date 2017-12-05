@@ -28,7 +28,7 @@
 #define STATUS_OKAY 0
 #define STATUS_FAIL 1
 
-#define CLEAR_BUFF(b,s,i)  memset(b, 0, s); i = 0
+#define CLEAR_BUFF(b,s,i)  do {memset((b), 0, (s)); (i) = 0;} while(0)
 // use SEND_CMD_P in other macros, PF is format specifier
 #ifdef SPARK
 #define SEND_CMD(c)           Serial1.printf(CMD_FMT "\n", (c))
@@ -56,7 +56,7 @@ typedef int (*cmd_f)(char *);
 
 int do_status(char *params);
 int rx_serial_command(char c, int *cmd_ret);
-int rx_serial_command_r(char c, char *rx_buffer, int size, int *cmd_ret);
+int rx_serial_command_r(char c, char *rx_buffer, int *save_i, int size, int *cmd_ret);
 int parse_params(char *params, char **param_arr, int max_params);
 
 // these functions are platform (spark, stm32) specific

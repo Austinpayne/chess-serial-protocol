@@ -94,7 +94,8 @@ static int do_serial_command(char *cmd_str, int *cmd_ret) {
 int rx_serial_command(char c, int *cmd_ret) {
     #define BUFF_SIZE 64
     static char rx_buffer[BUFF_SIZE];
-    return rx_serial_command_r(c, rx_buffer, BUFF_SIZE, cmd_ret);
+    static int i = 0;
+    return rx_serial_command_r(c, rx_buffer, &i, BUFF_SIZE, cmd_ret);
 }
 
 // recieves serial command into rx_buffer given
@@ -103,28 +104,25 @@ int rx_serial_command(char c, int *cmd_ret) {
 // -1 = command not yet fully recieved, keep passing in characters
 // -2 = command not rx'd or failed
 // Can also use *cmd_ret to get the return status of the command run
-int rx_serial_command_r(char c, char *rx_buffer, int size, int *cmd_ret) {
-    static int i = 0;
-
+int rx_serial_command_r(char c, char *rx_buffer, int *save_i, int size, int *cmd_ret) {
     int ret;
-    if (i < size) {
+    if (*save_i < size) {
         if (c == '\r' || c == '\n') {
-            rx_buffer[i] = '\0';
-            i = 0; // just in case another call to rx_serial_command_r comes in
+            rx_buffer[*save_i] = '\0';
             ret = do_serial_command(rx_buffer, cmd_ret);
             if (ret < 0) {
                 LOG_ERR("Serial cmd failed");
                 ret = FAIL;
             }
-            CLEAR_BUFF(rx_buffer, size, i);
+            CLEAR_BUFF(rx_buffer, size, *save_i);
         } else {
-            rx_buffer[i] = c;
-            i++;
+            rx_buffer[*save_i] = c;
+            (*save_i)++;
             ret = CONTINUE;
         }
     } else {
         LOG_ERR("Serial buffer overflow");
-        CLEAR_BUFF(rx_buffer, size, i);
+        CLEAR_BUFF(rx_buffer, size, *save_i);
         ret = FAIL;
     }
 
