@@ -16,14 +16,15 @@
 * `0x4` user promote
 * `0x5` calibrate (photon initiated on new game, probably don't need to have user access)
 * `0x6` end game (photon --> touchscreen, could also be touchscreen --> photon to indicate player wants to leave game)
+* `0x7` debug commands
 * `0x9` send log (forward debug messages to photon)
 * `0xA` end capture/castle
 * `0xB` system reset
 * `0xC` user turn ready (indicate to android that user can make moves)
 
 ### Incomplete (nice-to-have and wow-factor)
-* `0x7` scan for wifi networks (see https://github.com/Austinpayne/photon-chess-client/issues/1)
-* `0x8` set wifi
-* `0xD` get best move
-* `0xE` query existing games
-* `0xF` join existing game
+* `0x8` scan for wifi networks (see https://github.com/Austinpayne/photon-chess-client/issues/1)
+* `0xD` set wifi
+* `0xE` get best move
+* `0xF` query existing games
+* `0x10` join existing game

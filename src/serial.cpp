@@ -17,7 +17,7 @@ cmd_f cmds[] = {
     &do_promote,
     &do_calibrate,
     &do_end_game,
-    &do_scan_wifi,
+    &do_debug_cmd,
     &do_set_wifi,
     &do_send_log,
     &do_capture_castle,
