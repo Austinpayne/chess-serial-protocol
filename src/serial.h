@@ -32,17 +32,18 @@
 #define CLEAR_BUFF(b,s,i)  do {memset((b), 0, (s)); (i) = 0;} while(0)
 // use SEND_CMD_P in other macros, PF is format specifier
 #ifdef SPARK
-#define SEND_ANDROID_CMD(c)           Serial.printf(CMD_FMT "\n", (c))
-#define SEND_ANDROID_CMD_P(c,fmt,...) Serial.printf(CMD_FMT " " fmt "\n", (c), __VA_ARGS__)
+#define MAIN_SERIAL Serial
+#define SEND_ANDROID_CMD(c)           MAIN_SERIAL.printf(CMD_FMT "\n", (c))
+#define SEND_ANDROID_CMD_P(c,fmt,...) MAIN_SERIAL.printf(CMD_FMT " " fmt "\n", (c), __VA_ARGS__)
 #define SEND_CMD(c)           Serial1.printf(CMD_FMT "\n", (c))
 #define SEND_CMD_P(c,fmt,...) Serial1.printf(CMD_FMT " " fmt "\n", (c), __VA_ARGS__)
 #define SEND_CMD_START(c,fmt,...) Serial1.printf(CMD_FMT " " fmt, (c), __VA_ARGS__)
 #define SEND_CMD_PARAM(fmt,...)   Serial1.printf("," fmt, __VA_ARGS__)
 #define SEND_CMD_END()            Serial1.printf("\n")
-#define LOG_INFO(...)  Log.info(__VA_ARGS__)
-#define LOG_WARN(...)  Log.warn(__VA_ARGS__)
-#define LOG_TRACE(...) Log.trace(__VA_ARGS__)
-#define LOG_ERR(...)   Log.error(__VA_ARGS__)
+#define LOG_INFO(...)  do {MAIN_SERIAL.printf("[info] " __VA_ARGS__);  MAIN_SERIAL.printf("\n");} while(0)
+#define LOG_WARN(...)  do {MAIN_SERIAL.printf("[warn] " __VA_ARGS__);  MAIN_SERIAL.printf("\n");} while(0)
+#define LOG_TRACE(...) do {MAIN_SERIAL.printf("[trace] " __VA_ARGS__); MAIN_SERIAL.printf("\n");} while(0)
+#define LOG_ERR(...)   do {MAIN_SERIAL.printf("[error] " __VA_ARGS__); MAIN_SERIAL.printf("\n");} while(0)
 #else // assume stm32
 #define SEND_CMD(c)        printf(CMD_FMT "\n", (c))
 #define SEND_CMD_P(c,PF,p) printf(CMD_FMT " " PF "\n", (c), (p))
