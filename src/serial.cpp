@@ -96,6 +96,9 @@ int rx_serial_command(char c, int *cmd_ret) {
     #define BUFF_SIZE 64
     static char rx_buffer[BUFF_SIZE];
     static int i = 0;
+	if (i == 0) {
+		CLEAR_BUFF(rx_buffer, BUFF_SIZE, i);
+	}
     return rx_serial_command_r(c, rx_buffer, &i, BUFF_SIZE, cmd_ret);
 }
 
@@ -118,8 +121,19 @@ int rx_serial_command_r(char c, char *rx_buffer, int *save_i, int size, int *cmd
             CLEAR_BUFF(rx_buffer, size, *save_i);
         } else {
             rx_buffer[*save_i] = c;
-            (*save_i)++;
-            ret = CONTINUE;
+			// (austin) WAR: fail if command doesn't look right
+			if (*save_i == 0) {
+				char cmd_str[2];
+				cmd_str[0] = c;
+				cmd_str[1] = '\0';
+				long cmd = strtol(cmd_str, NULL, 16);
+				if (cmd > CMD_USER_TURN) {
+					CLEAR_BUFF(rx_buffer, size, *save_i);
+					return FAIL;
+				}
+			}
+			(*save_i)++;
+			ret = CONTINUE;
         }
     } else {
         LOG_ERR("Serial buffer overflow");
