@@ -16,7 +16,7 @@
 #define CMD_CALIBRATE  0x5
 #define CMD_END_GAME   0x6
 #define CMD_DEBUG      0x7
-#define SET_WIFI       0x8
+#define CMD_RETRY      0x8
 #define CMD_SEND_LOG   0x9
 #define CMD_CAPTURE_CASTLE   0xA
 #define CMD_RESET   0xB
@@ -71,7 +71,7 @@ int do_promote(char *params);
 int do_calibrate(char *params);
 int do_end_game(char *params);
 int do_debug_cmd(char *params);
-int do_set_wifi(char *params);
+int do_retry(char *params);
 int do_send_log(char *params);
 int do_capture_castle(char *params);
 int do_reset(char *params);

@@ -18,7 +18,7 @@ cmd_f cmds[] = {
     &do_calibrate,
     &do_end_game,
     &do_debug_cmd,
-    &do_set_wifi,
+    &do_retry,
     &do_send_log,
     &do_capture_castle,
     &do_reset,
